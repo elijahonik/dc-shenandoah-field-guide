@@ -739,6 +739,95 @@
       padding: 0 0.75rem;
     }
 
+    @media (prefers-color-scheme: dark) {
+      .day-card {
+        color: #2f241d;
+        background:
+          linear-gradient(158deg, var(--card-a), var(--card-b) 58%, rgba(235, 223, 216, 0.94) 100%);
+        border-color: rgba(114, 85, 71, 0.16);
+        box-shadow:
+          0 18px 42px rgba(0, 0, 0, 0.24),
+          inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      }
+
+      .day-card.is-focused {
+        box-shadow:
+          0 0 0 2px rgba(190, 117, 92, 0.24),
+          0 22px 48px rgba(0, 0, 0, 0.26),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+
+      .day-card .day-crest,
+      .day-card .section,
+      .day-card .anchor-item,
+      .day-card details.entry {
+        background:
+          linear-gradient(180deg, rgba(255, 252, 248, 0.5), rgba(255, 247, 241, 0.4));
+        border-color: rgba(114, 85, 71, 0.14);
+      }
+
+      .day-card details.entry[open] {
+        background:
+          linear-gradient(180deg, rgba(255, 252, 248, 0.62), rgba(255, 247, 241, 0.48));
+      }
+
+      .day-card .tiny-pill,
+      .day-card .badge,
+      .day-card .tag {
+        background: rgba(255, 255, 255, 0.32);
+        border-color: rgba(114, 85, 71, 0.14);
+      }
+
+      .day-card .day-label,
+      .day-card .section h2,
+      .day-card .section h3,
+      .day-card .day-crest svg,
+      .day-card .anchor-time,
+      .day-card .badge.locked {
+        color: #9f6554;
+      }
+
+      .day-card .badge.soft {
+        color: #7a6250;
+      }
+
+      .day-card .badge.floating {
+        color: #4f7067;
+      }
+
+      .day-card .day-date,
+      .day-card .day-blurb,
+      .day-card .moment-count,
+      .day-card .anchor-note,
+      .day-card .soft-note,
+      .day-card .tiny-pill,
+      .day-card .tag,
+      .day-card .entry-body,
+      .day-card .badge.category {
+        color: #5c4940;
+      }
+
+      .day-card .day-title,
+      .day-card .anchor-name,
+      .day-card .entry-name,
+      .day-card .moment-title,
+      .day-card .entry-time {
+        color: #2f241d;
+        text-shadow: none;
+      }
+
+      .day-card .chevron {
+        border-right-color: #6f5b50;
+        border-bottom-color: #6f5b50;
+      }
+
+      .day-card .map-row a {
+        color: #9a5f4f;
+        background: rgba(255, 253, 250, 0.52);
+        border-color: rgba(154, 95, 79, 0.22);
+      }
+    }
+
     @keyframes lift-in {
       from {
         opacity: 0;
