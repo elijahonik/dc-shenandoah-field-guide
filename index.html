@@ -61,19 +61,20 @@
       }
 
       .day-card {
+        color: #2f241d;
         background:
-          linear-gradient(158deg, var(--card-a), var(--card-b) 58%, rgba(26, 22, 21, 0.99) 100%);
-        border-color: rgba(255, 240, 228, 0.08);
+          linear-gradient(158deg, var(--card-a), var(--card-b) 58%, rgba(235, 223, 216, 0.94) 100%);
+        border-color: rgba(114, 85, 71, 0.16);
         box-shadow:
-          0 20px 44px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+          0 18px 42px rgba(0, 0, 0, 0.24),
+          inset 0 1px 0 rgba(255, 255, 255, 0.18);
       }
 
       .day-card.is-focused {
         box-shadow:
-          0 0 0 2px rgba(239, 177, 157, 0.22),
-          0 24px 54px rgba(0, 0, 0, 0.34),
-          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          0 0 0 2px rgba(190, 117, 92, 0.24),
+          0 22px 48px rgba(0, 0, 0, 0.26),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
 
       .day-crest,
@@ -81,24 +82,34 @@
       .anchor-item,
       details.entry {
         background:
-          linear-gradient(180deg, rgba(255, 248, 239, 0.1), rgba(255, 248, 239, 0.06));
-        border-color: rgba(255, 240, 228, 0.08);
+          linear-gradient(180deg, rgba(255, 252, 248, 0.5), rgba(255, 247, 241, 0.4));
+        border-color: rgba(114, 85, 71, 0.14);
       }
 
       details.entry[open] {
         background:
-          linear-gradient(180deg, rgba(255, 248, 239, 0.13), rgba(255, 248, 239, 0.08));
+          linear-gradient(180deg, rgba(255, 252, 248, 0.62), rgba(255, 247, 241, 0.48));
       }
 
       .tiny-pill,
       .badge,
       .tag {
-        background: rgba(255, 248, 239, 0.12);
+        background: rgba(255, 255, 255, 0.32);
+        border-color: rgba(114, 85, 71, 0.14);
       }
 
       .map-row a {
-        background: rgba(239, 177, 157, 0.18);
-        border-color: rgba(239, 177, 157, 0.32);
+        color: #9a5f4f;
+        background: rgba(255, 253, 250, 0.52);
+        border-color: rgba(154, 95, 79, 0.22);
+      }
+
+      .day-label,
+      .section h2,
+      .section h3,
+      .day-crest svg,
+      .anchor-time {
+        color: #9f6554;
       }
 
       .day-date,
@@ -109,15 +120,22 @@
       .tiny-pill,
       .tag,
       .entry-body,
-      .footer-note {
-        color: rgba(244, 236, 227, 0.9);
+      .badge.category {
+        color: #5c4940;
       }
 
       .entry-time,
-      .entry-name,
       .day-title,
-      h1 {
-        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
+      .anchor-name,
+      .entry-name,
+      .moment-title {
+        color: #2f241d;
+        text-shadow: none;
+      }
+
+      .chevron {
+        border-right-color: #6f5b50;
+        border-bottom-color: #6f5b50;
       }
     }
 
@@ -900,42 +918,42 @@
       1: {
         accent: "#efb19d",
         accentDeep: "#f4c6b7",
-        ambient: "rgba(156, 101, 83, 0.26)",
-        ambientTwo: "rgba(91, 103, 128, 0.18)",
-        cardA: "rgba(73, 52, 46, 0.98)",
-        cardB: "rgba(56, 45, 41, 0.97)"
+        ambient: "rgba(196, 137, 116, 0.28)",
+        ambientTwo: "rgba(120, 132, 164, 0.16)",
+        cardA: "rgba(236, 206, 191, 0.96)",
+        cardB: "rgba(208, 184, 174, 0.94)"
       },
       2: {
         accent: "#e6c48d",
         accentDeep: "#f1d9a9",
-        ambient: "rgba(140, 117, 69, 0.2)",
-        ambientTwo: "rgba(88, 123, 112, 0.18)",
-        cardA: "rgba(74, 63, 42, 0.98)",
-        cardB: "rgba(51, 56, 48, 0.97)"
+        ambient: "rgba(192, 166, 102, 0.24)",
+        ambientTwo: "rgba(110, 144, 135, 0.18)",
+        cardA: "rgba(234, 220, 182, 0.96)",
+        cardB: "rgba(202, 214, 194, 0.94)"
       },
       3: {
         accent: "#b7d8d1",
         accentDeep: "#cfe7e1",
-        ambient: "rgba(77, 118, 107, 0.22)",
-        ambientTwo: "rgba(93, 110, 134, 0.18)",
-        cardA: "rgba(42, 62, 57, 0.98)",
-        cardB: "rgba(43, 49, 58, 0.97)"
+        ambient: "rgba(107, 156, 144, 0.22)",
+        ambientTwo: "rgba(130, 149, 178, 0.16)",
+        cardA: "rgba(205, 229, 219, 0.96)",
+        cardB: "rgba(214, 223, 235, 0.94)"
       },
       4: {
         accent: "#efc29e",
         accentDeep: "#f4d2b7",
-        ambient: "rgba(140, 98, 69, 0.22)",
-        ambientTwo: "rgba(69, 112, 103, 0.18)",
-        cardA: "rgba(78, 56, 45, 0.98)",
-        cardB: "rgba(45, 58, 54, 0.97)"
+        ambient: "rgba(190, 140, 103, 0.24)",
+        ambientTwo: "rgba(108, 151, 142, 0.18)",
+        cardA: "rgba(232, 208, 189, 0.96)",
+        cardB: "rgba(205, 223, 214, 0.94)"
       },
       5: {
         accent: "#c8d6e7",
         accentDeep: "#dde7f2",
-        ambient: "rgba(93, 115, 143, 0.2)",
-        ambientTwo: "rgba(103, 128, 118, 0.16)",
-        cardA: "rgba(45, 53, 68, 0.98)",
-        cardB: "rgba(46, 57, 53, 0.97)"
+        ambient: "rgba(139, 163, 196, 0.22)",
+        ambientTwo: "rgba(136, 161, 150, 0.16)",
+        cardA: "rgba(213, 224, 241, 0.96)",
+        cardB: "rgba(214, 226, 218, 0.94)"
       }
     };
 
@@ -963,7 +981,7 @@
     };
 
     const state = {
-      todayMode: true,
+      viewMode: "today",
       activeDay: 1
     };
 
@@ -1379,18 +1397,23 @@
       const todayDay = getTripDayForToday();
       const position = getTripPosition();
 
-      if (state.todayMode && position === "during") {
+      if (state.viewMode === "today" && position === "during") {
         statusNote.textContent = "Today mode is centered on Day " + todayDay.day + ". This is the live day card for the trip.";
         return;
       }
 
-      if (state.todayMode && position === "before") {
+      if (state.viewMode === "today" && position === "before") {
         statusNote.textContent = "The trip has not started yet, so Today defaults to Day 1. The first date in the CSV is " + tripBounds.start.dateText + ".";
         return;
       }
 
-      if (state.todayMode && position === "after") {
+      if (state.viewMode === "today" && position === "after") {
         statusNote.textContent = "The trip window has passed, so Today rests on the last day. It keeps the ending easy to revisit.";
+        return;
+      }
+
+      if (state.viewMode === "single") {
+        statusNote.textContent = "Showing Day " + state.activeDay + " on its own. Use the dots to hop days, or tap Browse All Days for the full journal.";
         return;
       }
 
@@ -1413,18 +1436,9 @@
       Array.prototype.forEach.call(container.querySelectorAll(".dot-button"), function(button) {
         button.addEventListener("click", function() {
           const selectedDay = Number(button.getAttribute("data-day"));
-          const todayDay = getTripDayForToday();
-
           state.activeDay = selectedDay;
-          if (state.todayMode && selectedDay !== todayDay.day) {
-            state.todayMode = false;
-          }
-
+          state.viewMode = "single";
           render();
-
-          if (!state.todayMode) {
-            scrollToDayCard(selectedDay);
-          }
         });
       });
     }
@@ -1517,7 +1531,7 @@
       const guide = document.getElementById("guide");
       const activeDay = getActiveDay();
 
-      if (state.todayMode) {
+      if (state.viewMode !== "browse") {
         guide.className = "guide";
         guide.innerHTML = renderDayCard(activeDay, true);
         applyTheme(activeDay);
@@ -1536,11 +1550,11 @@
       const todayButton = document.getElementById("todayToggle");
       const browseButton = document.getElementById("browseToggle");
 
-      todayButton.classList.toggle("is-active", state.todayMode);
-      todayButton.setAttribute("aria-pressed", state.todayMode ? "true" : "false");
+      todayButton.classList.toggle("is-active", state.viewMode === "today");
+      todayButton.setAttribute("aria-pressed", state.viewMode === "today" ? "true" : "false");
 
-      browseButton.classList.toggle("is-active", !state.todayMode);
-      browseButton.setAttribute("aria-pressed", state.todayMode ? "false" : "true");
+      browseButton.classList.toggle("is-active", state.viewMode === "browse");
+      browseButton.setAttribute("aria-pressed", state.viewMode === "browse" ? "true" : "false");
     }
 
     function render() {
@@ -1551,13 +1565,13 @@
     }
 
     document.getElementById("todayToggle").addEventListener("click", function() {
-      state.todayMode = true;
+      state.viewMode = "today";
       state.activeDay = getTripDayForToday().day;
       render();
     });
 
     document.getElementById("browseToggle").addEventListener("click", function() {
-      state.todayMode = false;
+      state.viewMode = "browse";
       render();
       scrollToDayCard(state.activeDay);
     });
@@ -1570,7 +1584,7 @@
 
     (function init() {
       state.activeDay = getTripDayForToday().day;
-      state.todayMode = true;
+      state.viewMode = "today";
       render();
     })();
   </script>
