@@ -59,6 +59,33 @@
         --moderate: #f1c483;
         --packed: #efaaa4;
       }
+
+      .day-card {
+        background:
+          linear-gradient(155deg, var(--card-a), var(--card-b) 56%, rgba(34, 29, 26, 0.96) 100%);
+      }
+
+      .day-crest,
+      .section,
+      .anchor-item,
+      details.entry {
+        background: rgba(255, 248, 239, 0.08);
+      }
+
+      details.entry[open] {
+        background: rgba(255, 248, 239, 0.12);
+      }
+
+      .tiny-pill,
+      .badge,
+      .tag {
+        background: rgba(255, 248, 239, 0.08);
+      }
+
+      .map-row a {
+        background: rgba(239, 177, 157, 0.12);
+        border-color: rgba(239, 177, 157, 0.24);
+      }
     }
 
     * {
@@ -800,6 +827,49 @@
       }
     };
 
+    const darkDayThemes = {
+      1: {
+        accent: "#efb19d",
+        accentDeep: "#f4c6b7",
+        ambient: "rgba(156, 101, 83, 0.26)",
+        ambientTwo: "rgba(91, 103, 128, 0.18)",
+        cardA: "rgba(73, 52, 46, 0.9)",
+        cardB: "rgba(56, 45, 41, 0.88)"
+      },
+      2: {
+        accent: "#e6c48d",
+        accentDeep: "#f1d9a9",
+        ambient: "rgba(140, 117, 69, 0.2)",
+        ambientTwo: "rgba(88, 123, 112, 0.18)",
+        cardA: "rgba(74, 63, 42, 0.9)",
+        cardB: "rgba(51, 56, 48, 0.88)"
+      },
+      3: {
+        accent: "#b7d8d1",
+        accentDeep: "#cfe7e1",
+        ambient: "rgba(77, 118, 107, 0.22)",
+        ambientTwo: "rgba(93, 110, 134, 0.18)",
+        cardA: "rgba(42, 62, 57, 0.9)",
+        cardB: "rgba(43, 49, 58, 0.88)"
+      },
+      4: {
+        accent: "#efc29e",
+        accentDeep: "#f4d2b7",
+        ambient: "rgba(140, 98, 69, 0.22)",
+        ambientTwo: "rgba(69, 112, 103, 0.18)",
+        cardA: "rgba(78, 56, 45, 0.9)",
+        cardB: "rgba(45, 58, 54, 0.88)"
+      },
+      5: {
+        accent: "#c8d6e7",
+        accentDeep: "#dde7f2",
+        ambient: "rgba(93, 115, 143, 0.2)",
+        ambientTwo: "rgba(103, 128, 118, 0.16)",
+        cardA: "rgba(45, 53, 68, 0.9)",
+        cardB: "rgba(46, 57, 53, 0.88)"
+      }
+    };
+
     const sectionOrder = ["morning", "midday", "afternoon", "evening"];
     const monthIndex = {
       january: 0,
@@ -827,6 +897,8 @@
       todayMode: true,
       activeDay: 1
     };
+
+    const colorSchemeMedia = window.matchMedia("(prefers-color-scheme: dark)");
 
     function escapeHtml(value) {
       return String(value)
@@ -1120,7 +1192,8 @@
     }
 
     function applyTheme(day) {
-      applyPalette(dayThemes[day.day]);
+      const themeSet = colorSchemeMedia.matches ? darkDayThemes : dayThemes;
+      applyPalette(themeSet[day.day] || dayThemes[day.day]);
     }
 
     function mapLinksHtml(row) {
@@ -1419,6 +1492,12 @@
       render();
       scrollToDayCard(state.activeDay);
     });
+
+    if (typeof colorSchemeMedia.addEventListener === "function") {
+      colorSchemeMedia.addEventListener("change", render);
+    } else if (typeof colorSchemeMedia.addListener === "function") {
+      colorSchemeMedia.addListener(render);
+    }
 
     (function init() {
       state.activeDay = getTripDayForToday().day;
