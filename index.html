@@ -62,29 +62,62 @@
 
       .day-card {
         background:
-          linear-gradient(155deg, rgba(57, 43, 38, 0.98), rgba(44, 35, 31, 0.98) 56%, rgba(31, 26, 24, 0.99) 100%);
+          linear-gradient(158deg, var(--card-a), var(--card-b) 58%, rgba(26, 22, 21, 0.99) 100%);
+        border-color: rgba(255, 240, 228, 0.08);
+        box-shadow:
+          0 20px 44px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      }
+
+      .day-card.is-focused {
+        box-shadow:
+          0 0 0 2px rgba(239, 177, 157, 0.22),
+          0 24px 54px rgba(0, 0, 0, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
       }
 
       .day-crest,
       .section,
       .anchor-item,
       details.entry {
-        background: rgba(28, 23, 21, 0.72);
+        background:
+          linear-gradient(180deg, rgba(255, 248, 239, 0.1), rgba(255, 248, 239, 0.06));
+        border-color: rgba(255, 240, 228, 0.08);
       }
 
       details.entry[open] {
-        background: rgba(34, 28, 25, 0.82);
+        background:
+          linear-gradient(180deg, rgba(255, 248, 239, 0.13), rgba(255, 248, 239, 0.08));
       }
 
       .tiny-pill,
       .badge,
       .tag {
-        background: rgba(255, 248, 239, 0.16);
+        background: rgba(255, 248, 239, 0.12);
       }
 
       .map-row a {
         background: rgba(239, 177, 157, 0.18);
         border-color: rgba(239, 177, 157, 0.32);
+      }
+
+      .day-date,
+      .day-blurb,
+      .moment-count,
+      .anchor-note,
+      .soft-note,
+      .tiny-pill,
+      .tag,
+      .entry-body,
+      .footer-note {
+        color: rgba(244, 236, 227, 0.9);
+      }
+
+      .entry-time,
+      .entry-name,
+      .day-title,
+      h1 {
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
       }
     }
 
@@ -288,6 +321,9 @@
     }
 
     .day-card {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
       border-radius: 1.9rem;
       padding: 1.2rem;
       border: 1px solid var(--line);
@@ -296,6 +332,39 @@
       box-shadow: var(--shadow);
       animation: lift-in 420ms ease both;
       scroll-margin-top: 9.4rem;
+    }
+
+    .day-card::before,
+    .day-card::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .day-card::before {
+      top: -2.5rem;
+      right: -1.75rem;
+      width: 11rem;
+      height: 11rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--ambient), transparent 68%);
+      opacity: 0.9;
+    }
+
+    .day-card::after {
+      left: -2rem;
+      bottom: -2.5rem;
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--ambient-two), transparent 68%);
+      opacity: 0.72;
+    }
+
+    .day-card > * {
+      position: relative;
+      z-index: 1;
     }
 
     .day-card.is-focused {
