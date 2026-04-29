@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#efe2d5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Field Guide">
+  <title>DC + Shenandoah Field Guide</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6efe6;
+      --bg-deep: #efe2d5;
+      --surface: rgba(255, 251, 246, 0.78);
+      --surface-strong: rgba(255, 250, 244, 0.92);
+      --ink: #2c221b;
+      --ink-soft: #4d3d33;
+      --line: rgba(103, 81, 67, 0.15);
+      --shadow: 0 24px 60px rgba(101, 73, 52, 0.14);
+      --chip: rgba(255, 255, 255, 0.55);
+      --accent: #b86757;
+      --accent-deep: #8d4e42;
+      --ambient: rgba(231, 186, 163, 0.45);
+      --ambient-two: rgba(186, 214, 203, 0.32);
+      --card-a: rgba(250, 227, 214, 0.92);
+      --card-b: rgba(244, 238, 226, 0.8);
+      --locked: #8d4e42;
+      --soft: #7f6a53;
+      --floating: #54716a;
+      --easy: #5f7a5d;
+      --moderate: #9c6d38;
+      --packed: #a24c49;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161412;
+        --bg-deep: #1d1a17;
+        --surface: rgba(35, 30, 27, 0.76);
+        --surface-strong: rgba(43, 37, 33, 0.9);
+        --ink: #f4ece3;
+        --ink-soft: #e6d9cd;
+        --line: rgba(255, 234, 216, 0.11);
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        --chip: rgba(255, 248, 239, 0.07);
+        --accent: #efb19d;
+        --accent-deep: #f4c6b7;
+        --ambient: rgba(170, 112, 92, 0.28);
+        --ambient-two: rgba(88, 123, 112, 0.2);
+        --card-a: rgba(86, 58, 49, 0.34);
+        --card-b: rgba(52, 46, 42, 0.2);
+        --locked: #f0c7b9;
+        --soft: #dfceb8;
+        --floating: #b7d8d1;
+        --easy: #b8d6b2;
+        --moderate: #f1c483;
+        --packed: #efaaa4;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 500;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, var(--ambient), transparent 34rem),
+        radial-gradient(circle at 90% 15%, var(--ambient-two), transparent 28rem),
+        linear-gradient(180deg, var(--bg), var(--bg-deep));
+      transition: background 380ms ease, color 240ms ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 22px 22px;
+      opacity: 0.28;
+      mix-blend-mode: soft-light;
+    }
+
+    .app-shell {
+      width: min(100%, 32rem);
+      margin: 0 auto;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        1rem
+        max(1.75rem, env(safe-area-inset-bottom))
+        1rem;
+    }
+
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding-top: 0.35rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .hero-panel {
+      padding: 1.1rem 1rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 1.6rem;
+      background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -2rem -2rem auto;
+      width: 7.5rem;
+      height: 7.5rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.34), transparent 68%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.35rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: clamp(2rem, 8vw, 2.7rem);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      font: inherit;
+      font-size: 0.93rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      min-height: 2.8rem;
+      flex: 1 1 9rem;
+      justify-content: center;
+    }
+
+    .toolbar button:active {
+      transform: scale(0.98);
+    }
+
+    .toolbar button.is-active {
+      background: rgba(184, 103, 87, 0.12);
+      border-color: rgba(184, 103, 87, 0.22);
+      color: var(--accent-deep);
+    }
+
+    .status-note {
+      margin-top: 0.95rem;
+      padding: 0.85rem 0.95rem;
+      border-radius: 1.1rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.26);
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .dot-nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(3.1rem, 1fr));
+      gap: 0.65rem;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dot-button {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      text-align: center;
+      min-height: 3.4rem;
+    }
+
+    .dot-core {
+      width: 0.88rem;
+      height: 0.88rem;
+      border-radius: 50%;
+      margin: 0 auto 0.38rem;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65);
+      transition: transform 220ms ease, background 220ms ease, box-shadow 220ms ease;
+    }
+
+    .dot-button span {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .dot-button.is-current .dot-core {
+      transform: scale(1.36);
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(184, 103, 87, 0.14);
+      border-color: transparent;
+    }
+
+    .guide {
+      padding-top: 1rem;
+    }
+
+    .guide.is-browse {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .day-card {
+      border-radius: 1.9rem;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(155deg, var(--card-a), var(--card-b) 56%, var(--surface-strong) 100%);
+      box-shadow: var(--shadow);
+      animation: lift-in 420ms ease both;
+      scroll-margin-top: 9.4rem;
+    }
+
+    .day-card.is-focused {
+      box-shadow:
+        0 0 0 2px rgba(184, 103, 87, 0.2),
+        var(--shadow);
+    }
+
+    .day-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .day-label {
+      margin: 0;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+    }
+
+    .day-date {
+      margin: 0.28rem 0 0;
+      font-size: 1rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .day-title {
+      margin: 0.55rem 0 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: clamp(1.7rem, 6vw, 2.05rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .day-blurb {
+      margin: 0.75rem 0 0;
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .day-crest {
+      margin-top: 0.95rem;
+      padding: 0.7rem 0.8rem;
+      border-radius: 1.35rem;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .day-crest svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      color: var(--accent-deep);
+    }
+
+    .pacing-pill {
+      flex-shrink: 0;
+      padding: 0.58rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border: 1px solid currentColor;
+      background: rgba(255, 255, 255, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pacing-pill.easy {
+      color: var(--easy);
+    }
+
+    .pacing-pill.moderate {
+      color: var(--moderate);
+    }
+
+    .pacing-pill.packed {
+      color: var(--packed);
+    }
+
+    .day-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.95rem;
+    }
+
+    .tiny-pill {
+      padding: 0.48rem 0.72rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.34);
+      border: 1px solid var(--line);
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .section {
+      margin-top: 1.15rem;
+      padding: 0.95rem;
+      border-radius: 1.35rem;
+      background: rgba(255, 255, 255, 0.26);
+      border: 1px solid var(--line);
+    }
+
+    .section h2,
+    .section h3 {
+      margin: 0;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent-deep);
+    }
+
+    .anchor-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 0.85rem;
+    }
+
+    .anchor-item {
+      padding: 0.9rem;
+      border-radius: 1.1rem;
+      background: rgba(255, 255, 255, 0.36);
+      border: 1px solid var(--line);
+    }
+
+    .anchor-time {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--locked);
+    }
+
+    .anchor-name {
+      margin-top: 0.36rem;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .anchor-note,
+    .soft-note {
+      margin: 0.45rem 0 0;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .moment {
+      margin-top: 1.1rem;
+    }
+
+    .moment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .moment-title {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: 1.32rem;
+      letter-spacing: -0.02em;
+    }
+
+    .moment-count {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .entry-list {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    details.entry {
+      border: 1px solid var(--line);
+      border-radius: 1.3rem;
+      background: rgba(255, 255, 255, 0.38);
+      overflow: hidden;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    details.entry[open] {
+      background: rgba(255, 255, 255, 0.46);
+      transform: translateY(-1px);
+    }
+
+    details.entry summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.95rem;
+    }
+
+    details.entry summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .entry-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.34rem 0.56rem;
+      border-radius: 999px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid currentColor;
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    .badge.locked {
+      color: var(--locked);
+    }
+
+    .badge.soft {
+      color: var(--soft);
+    }
+
+    .badge.floating {
+      color: var(--floating);
+    }
+
+    .badge.category {
+      color: var(--ink-soft);
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.74rem;
+      font-weight: 600;
+      border-color: var(--line);
+    }
+
+    .entry-name {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.38;
+      font-weight: 700;
+      max-width: 15.5rem;
+    }
+
+    .entry-time {
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 0.82rem;
+      color: var(--ink);
+      font-weight: 700;
+      line-height: 1.35;
+      max-width: 6.8rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.42rem;
+      margin-top: 0.7rem;
+      padding-right: 1.5rem;
+    }
+
+    .tag {
+      padding: 0.32rem 0.54rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.26);
+      border: 1px solid var(--line);
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .chevron {
+      margin-left: auto;
+      margin-top: 0.45rem;
+      width: 1rem;
+      height: 1rem;
+      border-right: 2px solid var(--ink-soft);
+      border-bottom: 2px solid var(--ink-soft);
+      transform: rotate(45deg);
+      transition: transform 220ms ease;
+    }
+
+    details.entry[open] .chevron {
+      transform: rotate(225deg);
+    }
+
+    .entry-body {
+      padding: 0 0.95rem 1rem;
+      display: grid;
+      gap: 0.7rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      animation: bloom 200ms ease;
+    }
+
+    .entry-body p {
+      margin: 0;
+    }
+
+    .map-row {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .map-row a {
+      text-decoration: none;
+      color: var(--accent-deep);
+      border: 1px solid rgba(184, 103, 87, 0.22);
+      background: rgba(184, 103, 87, 0.08);
+      padding: 0.72rem 0.88rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      min-height: 2.75rem;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      text-align: center;
+      color: var(--ink-soft);
+      font-weight: 600;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      padding: 0 0.75rem;
+    }
+
+    @keyframes lift-in {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bloom {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-panel">
+        <p class="eyebrow">Pocket Field Guide</p>
+        <h1>DC + Shenandoah</h1>
+        <div class="toolbar">
+          <button id="todayToggle" type="button" aria-pressed="false">Today</button>
+          <button id="browseToggle" type="button" aria-pressed="false">Browse All Days</button>
+        </div>
+        <div class="status-note" id="statusNote"></div>
+        <nav class="dot-nav" id="dayDots" aria-label="Trip days"></nav>
+      </div>
+    </header>
+
+    <main class="guide" id="guide" aria-live="polite"></main>
+    <p class="footer-note">Field note: this guide is meant to feel like a rhythm, not a stopwatch.</p>
+  </div>
+
+  <script>
+    const tripYear = 2026;
+
+    const tripRows = [
+      { day: 1, date: "June 1", start: "8:00", end: "1:20", activity: "Drive NJ → DC", category: "Travel", location: "DC Airbnb", address: "740 5th Street Northeast, Washington, DC 20002", travel: "4-5h with a food stop", notes: "One long drive south; grab lunch whenever hunger wins on the way", advanceSignup: false, confirmed: false },
+      { day: 1, date: "June 1", start: "1:20", end: "1:45", activity: "Park at Airbnb + drop bags", category: "Stay", location: "DC Airbnb", address: "740 5th Street Northeast, Washington, DC 20002", travel: "", notes: "Use the Airbnb as the home base first", advanceSignup: false, confirmed: false },
+      { day: 1, date: "June 1", start: "1:45", end: "2:00", activity: "Head to United States Holocaust Memorial Museum", category: "Travel", location: "United States Holocaust Memorial Museum", address: "100 Raoul Wallenberg Place, SW, Washington, DC 20024-2126", travel: "10-15m", notes: "Give the timed entry a little breathing room", advanceSignup: false, confirmed: false },
+      { day: 1, date: "June 1", start: "2:00", end: "4:30", activity: "United States Holocaust Memorial Museum", category: "Activity", location: "United States Holocaust Memorial Museum", address: "100 Raoul Wallenberg Place, SW, Washington, DC 20024-2126", travel: "", notes: "Timed 2pm entry; the permanent exhibition's last entry is 4:30", advanceSignup: true, confirmed: true },
+      { day: 1, date: "June 1", start: "4:30", end: "4:50", activity: "Return to Airbnb", category: "Travel", location: "DC Airbnb", address: "740 5th Street Northeast, Washington, DC 20002", travel: "10-15m", notes: "", advanceSignup: false, confirmed: false },
+      { day: 1, date: "June 1", start: "5:00", end: "6:15", activity: "Check-in + rest", category: "Stay", location: "DC Airbnb", address: "740 5th Street Northeast, Washington, DC 20002", travel: "", notes: "A proper reset before evening wandering", advanceSignup: false, confirmed: false },
+      { day: 1, date: "June 1", start: "6:45", end: "7:00", activity: "Uber to Lincoln Memorial", category: "Travel", location: "Lincoln Memorial", address: "2 Lincoln Memorial Cir NW, Washington, DC 20037", travel: "10-15m", notes: "", advanceSignup: false, confirmed: false },
+      { day: 1, date: "June 1", start: "7:00", end: "7:15", activity: "Lincoln Memorial", category: "Activity", location: "Lincoln Memorial", address: "2 Lincoln Memorial Cir NW, Washington, DC 20037", travel: "", notes: "Flexible first stop on the memorial loop", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "7:15", end: "7:25", activity: "Vietnam Veterans Memorial", category: "Activity", location: "Vietnam Veterans Memorial", address: "5 Henry Bacon Dr NW, Washington, DC 20037", travel: "Short walk", notes: "Flexible reflective stop just beyond Lincoln", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "7:25", end: "7:40", activity: "Korean War Veterans Memorial", category: "Activity", location: "Korean War Veterans Memorial", address: "900 Ohio Dr SW, Washington, DC 20024", travel: "Short walk", notes: "Flexible stop on the way east", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "7:40", end: "7:55", activity: "World War II Memorial", category: "Activity", location: "World War II Memorial", address: "1750 Independence Ave SW, Washington, DC 20024", travel: "Short walk", notes: "Flexible plaza pause before crossing the Mall", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "7:55", end: "8:10", activity: "Washington Monument", category: "Activity", location: "Washington Monument", address: "2 15th St NW, Washington, DC 20024", travel: "Walk", notes: "Flexible outside stop for the iconic midpoint", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "8:10", end: "8:30", activity: "Martin Luther King, Jr. Memorial", category: "Activity", location: "Martin Luther King, Jr. Memorial", address: "1964 Independence Ave SW, Washington, DC 20003", travel: "Walk", notes: "Flexible stop if the Tidal Basin loop still feels good", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "8:30", end: "8:55", activity: "Franklin Delano Roosevelt Memorial", category: "Activity", location: "Franklin Delano Roosevelt Memorial", address: "1850 West Basin Dr SW, Washington, DC 20004", travel: "Walk", notes: "Flexible wander through the rooms and waterfalls", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "8:55", end: "9:25", activity: "Thomas Jefferson Memorial", category: "Activity", location: "Thomas Jefferson Memorial", address: "16 E Basin Dr SW, Washington, DC 20242", travel: "Walk", notes: "Flexible last big stop before heading back", advanceSignup: false, confirmed: false, timingOverride: "floating" },
+      { day: 1, date: "June 1", start: "9:25", end: "9:55", activity: "Uber back", category: "Travel", location: "DC Airbnb", address: "740 5th Street Northeast, Washington, DC 20002", travel: "10-15m", notes: "", advanceSignup: false, confirmed: false },
+
+      { day: 2, date: "June 2", start: "9:15", end: "9:30", activity: "Uber to Mall", category: "Travel", location: "National Gallery of Art", address: "Constitution Ave. NW, Washington, DC 20565", travel: "10-15m", notes: "Start west and sweep east across the day", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "9:30", end: "11:00", activity: "National Gallery of Art", category: "Activity", location: "National Gallery of Art", address: "Constitution Ave. NW, Washington, DC 20565", travel: "", notes: "A highlights-first visit; their official must-sees page says even an hour can work for a first sweep", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "11:05", end: "11:45", activity: "Smithsonian American Art Museum (optional)", category: "Activity", location: "Smithsonian American Art Museum", address: "G Street Northwest & 8th St NW, Washington, DC 20004", travel: "Walk", notes: "A bonus art detour if energy is still high", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "11:50", end: "1:00", activity: "National Museum of Natural History", category: "Activity", location: "National Museum of Natural History", address: "10th St. & Constitution Ave. NW, Washington, DC 20560", travel: "Walk", notes: "Best as a brisk highlight pass for dinosaurs + gems", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "1:00", end: "1:45", activity: "Lunch", category: "Food", location: "Mall area", travel: "", notes: "Refuel before the locked museum entry", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "2:00", end: "3:15", activity: "National Air and Space Museum", category: "Activity", location: "National Air and Space Museum", address: "650 Jefferson Dr SW, Washington, DC 20004", travel: "Walk", notes: "2pm entry; about 75 minutes is a comfortable highlights loop without rushing the best galleries", advanceSignup: true, confirmed: true },
+      { day: 2, date: "June 2", start: "3:15", end: "3:30", activity: "Walk to Capitol Hill", category: "Travel", location: "Library of Congress", address: "101 Independence Ave SE, Washington, DC 20540", travel: "15m", notes: "No Uber needed", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "3:30", end: "4:15", activity: "Library of Congress", category: "Activity", location: "Library of Congress", address: "101 Independence Ave SE, Washington, DC 20540", travel: "", notes: "Free timed-entry ticket needed; same-day tickets open online at 9am and last entry is 4:30", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "4:15", end: "4:40", activity: "United States Capitol (exterior)", category: "Activity", location: "United States Capitol", address: "Washington, DC 20004", travel: "Walk", notes: "Keep this as a grounds-and-views stop unless you already have a tour", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "4:40", end: "4:55", activity: "Supreme Court of the United States", category: "Activity", location: "Supreme Court of the United States", address: "1 First St NE, Washington, DC 20543", travel: "Walk", notes: "Best treated as an exterior/plaza/photo stop here since the building itself closes at 3pm", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "4:55", end: "5:25", activity: "United States Botanic Garden (optional)", category: "Activity", location: "United States Botanic Garden", address: "100 Maryland Ave SW, Washington, DC 20001", travel: "Walk", notes: "At this hour it is mainly an outdoor-gardens cooldown; the Conservatory typically closes at 5", advanceSignup: false, confirmed: false },
+      { day: 2, date: "June 2", start: "5:25", end: "5:40", activity: "Walk home", category: "Travel", location: "DC Airbnb", address: "740 5th Street Northeast, Washington, DC 20002", travel: "15m", notes: "", advanceSignup: false, confirmed: false },
+
+      { day: 3, date: "June 3", start: "8:30", end: "10:30", activity: "Georgetown walk + breakfast", category: "Activity", location: "Georgetown", address: "C&O Canal Towpath at 30th St NW", travel: "", notes: "Canal + waterfront", advanceSignup: false, confirmed: false },
+      { day: 3, date: "June 3", start: "10:45", end: "12:45", activity: "Drive to Shenandoah", category: "Travel", location: "Thornton Gap Entrance Station", address: "US-211, Luray, VA 22835", travel: "2h", notes: "", advanceSignup: false, confirmed: false },
+      { day: 3, date: "June 3", start: "1:15", end: "3:00", activity: "Hawksbill hike", category: "Activity", location: "Thornton Gap Entrance Station", address: "US-211, Luray, VA 22835", travel: "", notes: "Best view hike", advanceSignup: false, confirmed: false },
+      { day: 3, date: "June 3", start: "3:15", end: "4:00", activity: "Grocery stop", category: "Food", location: "Luray area", travel: "", notes: "Meat + basics", advanceSignup: false, confirmed: false },
+      { day: 3, date: "June 3", start: "4:00", end: "4:45", activity: "Drive to Airbnb", category: "Travel", location: "Shenandoah Airbnb", address: "15030 North Mountain Road, Broadway, VA 22815, United States", travel: "", notes: "", advanceSignup: false, confirmed: false },
+      { day: 3, date: "June 3", start: "5:00", end: "Night", activity: "Relax / property / light dinner", category: "Stay", location: "Shenandoah Airbnb", address: "15030 North Mountain Road, Broadway, VA 22815, United States", travel: "", notes: "Main experience", advanceSignup: false, confirmed: false },
+
+      { day: 4, date: "June 4", start: "8am", end: "8:30am", activity: "Farmer's Market", category: "Food", location: "Luray area", travel: "", notes: "Eggs, berries, and a slow start", advanceSignup: false, confirmed: false },
+      { day: 4, date: "June 4", start: "8:30am", end: "9:15am", activity: "Breakfast at Airbnb", category: "Food", location: "Shenandoah Airbnb", address: "15030 North Mountain Road, Broadway, VA 22815, United States", travel: "", notes: "Relaxed start", advanceSignup: false, confirmed: false },
+      { day: 4, date: "June 4", start: "10am", end: "12:30pm", activity: "Luray Caverns", category: "Activity", location: "Luray Caverns", address: "101 Cave Hill Rd, Luray, VA 22835", travel: "38 min", notes: "Self-guided visit", advanceSignup: true, confirmed: true },
+      { day: 4, date: "June 4", start: "2pm", end: "5pm", activity: "Shenandoah River Adventures LLC Tandem Canoe", category: "Activity", location: "Shenandoah River Adventures LLC", address: "415 Long Ave, Shenandoah, VA 22849", travel: "24 mins", notes: "Bring proper footwear and your own snacks", advanceSignup: true, confirmed: true },
+      { day: 4, date: "June 4", start: "6pm", end: "Night", activity: "Chill, hot tub, grill, etc", category: "Stay", location: "Shenandoah Airbnb", address: "15030 North Mountain Road, Broadway, VA 22815, United States", travel: "45 mins", notes: "", advanceSignup: false, confirmed: false },
+
+      { day: 5, date: "June 5", start: "8:00", end: "9:30", activity: "Slow breakfast + pack up", category: "Stay", location: "Shenandoah Airbnb", address: "15030 North Mountain Road, Broadway, VA 22815, United States", travel: "", notes: "One last easy cabin morning", advanceSignup: false, confirmed: false },
+      { day: 5, date: "June 5", start: "10:00", end: "10:15", activity: "Checkout", category: "Stay", location: "Shenandoah Airbnb", address: "15030 North Mountain Road, Broadway, VA 22815, United States", travel: "", notes: "Must be out by 10am", advanceSignup: false, confirmed: false },
+      { day: 5, date: "June 5", start: "10:15", end: "2:30", activity: "Drive Shenandoah → NJ", category: "Travel", location: "Luray → Closter", travel: "4-4.5h", notes: "Snack stop whenever feels nice", advanceSignup: false, confirmed: false }
+    ];
+
+    const dayMeta = {
+      1: {
+        title: "Long drive south, remembrance, and monuments at dusk",
+        blurb: "The drive-in stays one flexible road-trip block with a whenever-you're-hungry lunch stop, then the Holocaust Museum becomes the day's one real clock before evening opens back up.",
+        pacing: "Moderate"
+      },
+      2: {
+        title: "Art first, then lift-off, then a Capitol Hill sweep",
+        blurb: "This one follows the west-to-east geography you mapped out, with the 2pm Air & Space entry as the only true clock and the final Hill stops becoming quicker late-day peeks.",
+        pacing: "Packed"
+      },
+      3: {
+        title: "From Georgetown charm to mountain air",
+        blurb: "A scenic pivot day with plenty of breathing room once the city gives way to the ridge and the cabin.",
+        pacing: "Easy"
+      },
+      4: {
+        title: "Caverns below, river beside, evening slow",
+        blurb: "Two booked outdoor-adventure anchors, then a lovely landing back at the house when the day softens.",
+        pacing: "Moderate"
+      },
+      5: {
+        title: "One last cabin morning, then the road home",
+        blurb: "Checkout is the only true clock-watcher. After that, the day can settle into an easy, unhurried drive north.",
+        pacing: "Easy"
+      }
+    };
+
+    const dayThemes = {
+      1: {
+        accent: "#b86757",
+        accentDeep: "#8d4e42",
+        ambient: "rgba(232, 180, 156, 0.46)",
+        ambientTwo: "rgba(197, 206, 227, 0.26)",
+        cardA: "rgba(249, 225, 212, 0.92)",
+        cardB: "rgba(242, 234, 224, 0.82)"
+      },
+      2: {
+        accent: "#8a6a3e",
+        accentDeep: "#6f5533",
+        ambient: "rgba(222, 201, 141, 0.34)",
+        ambientTwo: "rgba(168, 203, 197, 0.28)",
+        cardA: "rgba(244, 234, 201, 0.92)",
+        cardB: "rgba(228, 240, 231, 0.78)"
+      },
+      3: {
+        accent: "#54716a",
+        accentDeep: "#3f5752",
+        ambient: "rgba(140, 189, 173, 0.3)",
+        ambientTwo: "rgba(193, 204, 223, 0.24)",
+        cardA: "rgba(222, 238, 229, 0.9)",
+        cardB: "rgba(230, 235, 242, 0.82)"
+      },
+      4: {
+        accent: "#91624b",
+        accentDeep: "#734e3d",
+        ambient: "rgba(211, 171, 126, 0.34)",
+        ambientTwo: "rgba(130, 177, 167, 0.28)",
+        cardA: "rgba(240, 223, 202, 0.92)",
+        cardB: "rgba(224, 237, 231, 0.8)"
+      },
+      5: {
+        accent: "#5f6f86",
+        accentDeep: "#49576a",
+        ambient: "rgba(171, 196, 224, 0.3)",
+        ambientTwo: "rgba(193, 214, 205, 0.26)",
+        cardA: "rgba(224, 233, 243, 0.92)",
+        cardB: "rgba(231, 239, 234, 0.82)"
+      }
+    };
+
+    const sectionOrder = ["morning", "midday", "afternoon", "evening"];
+    const monthIndex = {
+      january: 0,
+      february: 1,
+      march: 2,
+      april: 3,
+      may: 4,
+      june: 5,
+      july: 6,
+      august: 7,
+      september: 8,
+      october: 9,
+      november: 10,
+      december: 11
+    };
+
+    const dayLabels = {
+      morning: "Morning",
+      midday: "Midday",
+      afternoon: "Afternoon",
+      evening: "Evening"
+    };
+
+    const state = {
+      todayMode: true,
+      activeDay: 1
+    };
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function parseDateParts(dateLabel) {
+      const parts = String(dateLabel).trim().split(/\s+/);
+      const month = monthIndex[parts[0].toLowerCase()];
+      const dayNumber = Number(parts[1]);
+      return { month, dayNumber };
+    }
+
+    function buildDate(dateLabel) {
+      const parts = parseDateParts(dateLabel);
+      return new Date(tripYear, parts.month, parts.dayNumber, 12);
+    }
+
+    function toDateKey(date) {
+      return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+      ].join("-");
+    }
+
+    function parseTimeToken(raw) {
+      if (!raw) return null;
+      const text = String(raw).trim().toLowerCase();
+      if (!text || text === "—") return null;
+      if (text === "night") return 21 * 60;
+
+      const meridian = text.includes("am") ? "am" : text.includes("pm") ? "pm" : "";
+      const clean = text.replace(/am|pm/g, "").trim();
+      const pieces = clean.split(":");
+      const hour = Number(pieces[0]);
+      const minute = Number(pieces[1] || "0");
+
+      if (!Number.isFinite(hour) || !Number.isFinite(minute)) return null;
+
+      if (meridian) {
+        let adjustedHour = hour % 12;
+        if (meridian === "pm") adjustedHour += 12;
+        return adjustedHour * 60 + minute;
+      }
+
+      if (hour === 12) {
+        return 12 * 60 + minute;
+      }
+
+      return [hour * 60 + minute, (hour + 12) * 60 + minute];
+    }
+
+    function resolveTime(raw, previousMinutes) {
+      const parsed = parseTimeToken(raw);
+      if (parsed == null) return null;
+      if (typeof parsed === "number") return parsed;
+
+      const candidates = parsed.slice().sort(function(a, b) {
+        return a - b;
+      });
+      const floor = previousMinutes == null ? -1 : previousMinutes - 30;
+      for (let index = 0; index < candidates.length; index += 1) {
+        if (candidates[index] >= floor) {
+          return candidates[index];
+        }
+      }
+      return candidates[candidates.length - 1];
+    }
+
+    function formatMinutes(minutes) {
+      if (minutes == null) return "";
+      const hour24 = Math.floor(minutes / 60);
+      const minute = minutes % 60;
+      const meridian = hour24 >= 12 ? "PM" : "AM";
+      const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+      return hour12 + ":" + String(minute).padStart(2, "0") + " " + meridian;
+    }
+
+    function formatWindow(startMinutes, endMinutes) {
+      if (startMinutes != null && endMinutes != null) {
+        return formatMinutes(startMinutes) + " - " + formatMinutes(endMinutes);
+      }
+      if (startMinutes != null) {
+        return formatMinutes(startMinutes);
+      }
+      return "";
+    }
+
+    function getDaypart(minutes) {
+      if (minutes == null) return "evening";
+      if (minutes < 11 * 60) return "morning";
+      if (minutes < 14 * 60) return "midday";
+      if (minutes < 17 * 60 + 30) return "afternoon";
+      return "evening";
+    }
+
+    function getTimingType(row) {
+      if (row.timingOverride) return row.timingOverride;
+      const text = (row.activity + " " + row.notes).toLowerCase();
+      const optional = text.includes("optional") || text.includes("skip if tired");
+      const relaxed = /relax|rest|chill|cooldown|hot tub/.test(text);
+      const fixedTiming = /checkout|check-out|must be out by/.test(text);
+      const clearlyBooked = row.confirmed && (/holocaust|air & space|canoe|caverns/.test(text) || row.advanceSignup);
+
+      if (fixedTiming) return "locked";
+      if (clearlyBooked) return "locked";
+      if (optional || relaxed) return "floating";
+      return "soft";
+    }
+
+    function getTimingLabel(row) {
+      if (row.timingType === "locked") return "Locked";
+      if (row.timingType === "floating") return "Floating";
+      return "Soft";
+    }
+
+    function getSummaryTime(row) {
+      if (row.timingType === "locked") {
+        return formatWindow(row.startMinutes, row.endMinutes);
+      }
+      if (row.timingType === "floating") {
+        return "Flexible in the " + getDaypart(row.startMinutes);
+      }
+      return "~ " + formatWindow(row.startMinutes, row.endMinutes);
+    }
+
+    function getOriginalWindow(row) {
+      if (row.timingType !== "floating") return "";
+      return formatWindow(row.startMinutes, row.endMinutes);
+    }
+
+    function shouldShowMap(row) {
+      if (row.address) return true;
+      if (!row.location) return false;
+      if (row.location.includes("→")) return false;
+      if (/^(dc|into dc|mall area|capitol \/ mall edge|luray area)$/i.test(row.location)) return false;
+      return true;
+    }
+
+    function unique(list) {
+      return list.filter(function(item, index) {
+        return item && list.indexOf(item) === index;
+      });
+    }
+
+    function getTags(row) {
+      const text = (row.activity + " " + row.notes + " " + row.location + " " + row.category).toLowerCase();
+      const tags = [];
+
+      if (row.timingType === "locked") tags.push("booked");
+      if (row.timingType === "floating") tags.push("flexible");
+      if (/food|breakfast|lunch|grocery|market|grill|dinner|berries/.test(text)) tags.push("food");
+      if (/museum|gallery/.test(text)) tags.push("museum");
+      if (/hike|river|canoe|shenandoah|hawksbill|mountain|caverns/.test(text)) tags.push("outdoors");
+      if (/walk|monument|waterfront|canal|mall|view|capitol|supreme court|botanic/.test(text)) tags.push("scenic");
+      if (/rest|relax|chill|cooldown|skip if tired|light dinner/.test(text)) tags.push("chill");
+      if (row.category === "Travel") tags.push("transit");
+
+      return unique(tags).slice(0, 4);
+    }
+
+    function augmentDayRows(rows) {
+      let cursor = null;
+
+      return rows.map(function(row) {
+        const timingType = getTimingType(row);
+        const startMinutes = resolveTime(row.start, cursor);
+        const endMinutes = resolveTime(row.end, startMinutes != null ? startMinutes : cursor);
+
+        if (startMinutes != null) {
+          cursor = startMinutes;
+        } else if (endMinutes != null) {
+          cursor = endMinutes;
+        }
+
+        return Object.assign({}, row, {
+          startMinutes: startMinutes,
+          endMinutes: endMinutes,
+          timingType: timingType,
+          daypart: getDaypart(startMinutes),
+          tags: getTags(Object.assign({}, row, { timingType: timingType }))
+        });
+      });
+    }
+
+    function buildDays() {
+      const grouped = tripRows.reduce(function(accumulator, row) {
+        if (!accumulator[row.day]) accumulator[row.day] = [];
+        accumulator[row.day].push(row);
+        return accumulator;
+      }, {});
+
+      return Object.keys(grouped).map(function(dayKey) {
+        const dayNumber = Number(dayKey);
+        const rows = augmentDayRows(grouped[dayNumber]);
+        const sampleDate = buildDate(rows[0].date);
+        const meta = dayMeta[dayNumber];
+        const anchors = rows.filter(function(row) {
+          return row.timingType === "locked";
+        });
+        const sections = sectionOrder.reduce(function(accumulator, bucket) {
+          const items = rows.filter(function(row) {
+            return row.daypart === bucket;
+          });
+          if (items.length) accumulator[bucket] = items;
+          return accumulator;
+        }, {});
+
+        return {
+          day: dayNumber,
+          dateText: sampleDate.toLocaleDateString(undefined, {
+            weekday: "long",
+            month: "long",
+            day: "numeric"
+          }),
+          shortDate: sampleDate.toLocaleDateString(undefined, {
+            month: "short",
+            day: "numeric"
+          }),
+          dateValue: sampleDate,
+          dateKey: toDateKey(sampleDate),
+          rows: rows,
+          anchors: anchors,
+          sections: sections,
+          title: meta.title,
+          blurb: meta.blurb,
+          pacing: meta.pacing
+        };
+      }).sort(function(a, b) {
+        return a.dateValue - b.dateValue || a.day - b.day;
+      });
+    }
+
+    const tripDays = buildDays();
+    const tripBounds = {
+      start: tripDays[0],
+      end: tripDays[tripDays.length - 1]
+    };
+
+    function isSameDate(dateA, dateB) {
+      return dateA.getFullYear() === dateB.getFullYear() &&
+        dateA.getMonth() === dateB.getMonth() &&
+        dateA.getDate() === dateB.getDate();
+    }
+
+    function getTripPosition() {
+      const todayKey = toDateKey(new Date());
+      if (todayKey < tripBounds.start.dateKey) return "before";
+      if (todayKey > tripBounds.end.dateKey) return "after";
+      return "during";
+    }
+
+    function getTripDayForToday() {
+      const now = new Date();
+      const position = getTripPosition();
+
+      if (position === "before") return tripBounds.start;
+      if (position === "after") return tripBounds.end;
+
+      for (let index = 0; index < tripDays.length; index += 1) {
+        if (isSameDate(now, tripDays[index].dateValue)) return tripDays[index];
+      }
+
+      return tripBounds.start;
+    }
+
+    function getActiveDay() {
+      return tripDays.find(function(day) {
+        return day.day === state.activeDay;
+      }) || tripDays[0];
+    }
+
+    function scrollToDayCard(dayNumber) {
+      const card = document.getElementById("day-card-" + dayNumber);
+      if (!card) return;
+      card.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function applyPalette(theme) {
+      document.documentElement.style.setProperty("--accent", theme.accent);
+      document.documentElement.style.setProperty("--accent-deep", theme.accentDeep);
+      document.documentElement.style.setProperty("--ambient", theme.ambient);
+      document.documentElement.style.setProperty("--ambient-two", theme.ambientTwo);
+      document.documentElement.style.setProperty("--card-a", theme.cardA);
+      document.documentElement.style.setProperty("--card-b", theme.cardB);
+    }
+
+    function applyTheme(day) {
+      applyPalette(dayThemes[day.day]);
+    }
+
+    function mapLinksHtml(row) {
+      if (!shouldShowMap(row)) return "";
+      const destination = row.mapQuery || row.address || row.location;
+      const query = encodeURIComponent(destination);
+      return [
+        '<div class="map-row">',
+        '<a href="https://maps.apple.com/?q=' + query + '" target="_blank" rel="noreferrer">Apple Maps</a>',
+        '<a href="https://www.google.com/maps/search/?api=1&query=' + query + '" target="_blank" rel="noreferrer">Google Maps</a>',
+        "</div>"
+      ].join("");
+    }
+
+    function entryBodyHtml(row) {
+      const lines = [];
+
+      if (row.location) {
+        lines.push("<p><strong>Place:</strong> " + escapeHtml(row.location) + "</p>");
+      }
+
+      if (row.address) {
+        lines.push("<p><strong>Address:</strong> " + escapeHtml(row.address) + "</p>");
+      }
+
+      if (row.travel) {
+        lines.push("<p><strong>Travel feel:</strong> " + escapeHtml(row.travel) + "</p>");
+      }
+
+      if (row.notes) {
+        lines.push("<p><strong>Field note:</strong> " + escapeHtml(row.notes) + "</p>");
+      }
+
+      const originalWindow = getOriginalWindow(row);
+      if (originalWindow) {
+        lines.push("<p><strong>Original planning window:</strong> ~ " + escapeHtml(originalWindow) + "</p>");
+      }
+
+      lines.push(mapLinksHtml(row));
+      return lines.join("");
+    }
+
+    function renderAnchors(day) {
+      if (!day.anchors.length) {
+        return [
+          '<section class="section">',
+          "<h2>Today's anchors</h2>",
+          '<p class="soft-note">No hard bookings here. Let weather, energy, and curiosity steer the order.</p>',
+          "</section>"
+        ].join("");
+      }
+
+      return [
+        '<section class="section">',
+        "<h2>Today's anchors</h2>",
+        '<div class="anchor-list">',
+        day.anchors.map(function(anchor) {
+          return [
+            '<div class="anchor-item">',
+            '<div class="anchor-time">' + escapeHtml(formatWindow(anchor.startMinutes, anchor.endMinutes)) + "</div>",
+            '<div class="anchor-name">' + escapeHtml(anchor.activity) + "</div>",
+            anchor.notes ? '<p class="anchor-note">' + escapeHtml(anchor.notes) + "</p>" : "",
+            "</div>"
+          ].join("");
+        }).join(""),
+        "</div>",
+        "</section>"
+      ].join("");
+    }
+
+    function renderSections(day) {
+      return sectionOrder.map(function(bucket) {
+        const items = day.sections[bucket];
+        if (!items || !items.length) return "";
+
+        return [
+          '<section class="moment">',
+          '<div class="moment-header">',
+          '<h3 class="moment-title">' + dayLabels[bucket] + "</h3>",
+          '<div class="moment-count">' + items.length + " stop" + (items.length === 1 ? "" : "s") + "</div>",
+          "</div>",
+          '<div class="entry-list">',
+          items.map(function(row) {
+            return [
+              '<details class="entry">',
+              "<summary>",
+              '<div class="entry-head">',
+              "<div>",
+              '<div class="entry-kicker">',
+              '<span class="badge ' + row.timingType + '">' + escapeHtml(getTimingLabel(row)) + "</span>",
+              '<span class="badge category">' + escapeHtml(row.category) + "</span>",
+              "</div>",
+              '<h4 class="entry-name">' + escapeHtml(row.activity) + "</h4>",
+              "</div>",
+              '<div class="entry-time">' + escapeHtml(getSummaryTime(row)) + "</div>",
+              "</div>",
+              '<div class="tag-row">' + row.tags.map(function(tag) {
+                return '<span class="tag">' + escapeHtml(tag) + "</span>";
+              }).join("") + "</div>",
+              '<div class="chevron" aria-hidden="true"></div>',
+              "</summary>",
+              '<div class="entry-body">' + entryBodyHtml(row) + "</div>",
+              "</details>"
+            ].join("");
+          }).join(""),
+          "</div>",
+          "</section>"
+        ].join("");
+      }).join("");
+    }
+
+    function renderStatus() {
+      const statusNote = document.getElementById("statusNote");
+      const todayDay = getTripDayForToday();
+      const position = getTripPosition();
+
+      if (state.todayMode && position === "during") {
+        statusNote.textContent = "Today mode is centered on Day " + todayDay.day + ". This is the live day card for the trip.";
+        return;
+      }
+
+      if (state.todayMode && position === "before") {
+        statusNote.textContent = "The trip has not started yet, so Today defaults to Day 1. The first date in the CSV is " + tripBounds.start.dateText + ".";
+        return;
+      }
+
+      if (state.todayMode && position === "after") {
+        statusNote.textContent = "The trip window has passed, so Today rests on the last day. It keeps the ending easy to revisit.";
+        return;
+      }
+
+      statusNote.textContent = "Browse All Days is open. Use the dots to hop around, or simply scroll the whole guide like a little travel journal.";
+    }
+
+    function renderDots() {
+      const container = document.getElementById("dayDots");
+      container.innerHTML = tripDays.map(function(day) {
+        const current = day.day === state.activeDay;
+        return [
+          '<button class="dot-button ' + (current ? "is-current" : "") + '" type="button" data-day="' + day.day + '" aria-label="Open Day ' + day.day + ", " + escapeHtml(day.shortDate) + '">',
+          '<div class="dot-core"></div>',
+          "<span>Day " + day.day + "</span>",
+          "<span>" + escapeHtml(day.shortDate) + "</span>",
+          "</button>"
+        ].join("");
+      }).join("");
+
+      Array.prototype.forEach.call(container.querySelectorAll(".dot-button"), function(button) {
+        button.addEventListener("click", function() {
+          const selectedDay = Number(button.getAttribute("data-day"));
+          const todayDay = getTripDayForToday();
+
+          state.activeDay = selectedDay;
+          if (state.todayMode && selectedDay !== todayDay.day) {
+            state.todayMode = false;
+          }
+
+          render();
+
+          if (!state.todayMode) {
+            scrollToDayCard(selectedDay);
+          }
+        });
+      });
+    }
+
+    function renderDayCrest(dayNumber) {
+      const scenes = {
+        1: [
+          '<svg viewBox="0 0 320 92" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<path d="M14 72c24-10 39-14 61-14 22 0 34 6 49 6 18 0 30-11 52-11 23 0 36 11 55 11 18 0 34-8 75-14" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" opacity=".28"/>',
+          '<path d="M92 70h18l-6-36h-6l-6 36z" fill="currentColor" opacity=".82"/>',
+          '<path d="M101 24l9 12H92l9-12z" fill="currentColor"/>',
+          '<path d="M176 26h12v44h-12z" fill="currentColor" opacity=".78"/>',
+          '<path d="M164 70h36" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M228 56c10-7 21-11 31-11 11 0 19 6 32 17" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
+          '<circle cx="270" cy="22" r="8" fill="currentColor" opacity=".16"/>',
+          '</svg>'
+        ].join(""),
+        2: [
+          '<svg viewBox="0 0 320 92" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<path d="M18 71h284" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" opacity=".2"/>',
+          '<path d="M62 70h64" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M72 70V48m14 22V48m14 22V48m14 22V48" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".78"/>',
+          '<path d="M59 48h69l-34.5-18L59 48z" fill="currentColor"/>',
+          '<path d="M156 50l40-15-16 18 13 8-9 2-12-7-11 13-7-3 8-11-26-1z" fill="currentColor"/>',
+          '<path d="M212 68h58l-9-26h-40l-9 26z" fill="currentColor" opacity=".2"/>',
+          '<path d="M223 42h36" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M232 33h18" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+          '<circle cx="287" cy="20" r="7" fill="currentColor" opacity=".14"/>',
+          '</svg>'
+        ].join(""),
+        3: [
+          '<svg viewBox="0 0 320 92" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<path d="M20 70c29-8 47-8 65-2 14 5 27 5 41 0 18-6 22-28 39-28 19 0 30 28 44 28 12 0 22-7 37-20 13-12 28-20 54-25" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>',
+          '<path d="M35 73V45h33v28" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>',
+          '<path d="M49 45V33l9-6 10 6v12" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
+          '<path d="M82 58h56" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".3"/>',
+          '<circle cx="250" cy="22" r="9" fill="currentColor" opacity=".16"/>',
+          '</svg>'
+        ].join(""),
+        4: [
+          '<svg viewBox="0 0 320 92" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<path d="M18 67c24 6 42 7 66 4 24-3 47-12 75-12 31 0 53 12 79 12 22 0 40-4 64-14" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" opacity=".25"/>',
+          '<path d="M88 56c10 0 23 5 34 5 12 0 23-5 34-5-9 9-16 14-34 14s-25-5-34-14z" fill="currentColor"/>',
+          '<path d="M121 56l-4-11m13 11l4-11" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>',
+          '<path d="M208 67c0-19 16-34 36-34s36 15 36 34" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".3"/>',
+          '<path d="M224 67c0-10 9-18 20-18s20 8 20 18" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M42 67V40m12 27V33m12 34V45" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".78"/>',
+          '</svg>'
+        ].join(""),
+        5: [
+          '<svg viewBox="0 0 320 92" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<path d="M18 72c28-10 45-15 71-15 28 0 47 13 71 13 19 0 32-10 46-20 13-10 27-17 57-22" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" opacity=".3"/>',
+          '<path d="M58 70V47h34v23" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>',
+          '<path d="M53 49l22-15 22 15" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
+          '<path d="M184 69c16-1 25-8 41-23 14-14 24-22 44-27" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M250 26l17 5-11 11" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
+          '<circle cx="287" cy="21" r="7" fill="currentColor" opacity=".15"/>',
+          '</svg>'
+        ].join("")
+      };
+
+      return scenes[dayNumber] || scenes[1];
+    }
+
+    function renderDayCard(day, isFocused) {
+      return [
+        '<article class="day-card' + (isFocused ? " is-focused" : "") + '" id="day-card-' + day.day + '">',
+        '<div class="day-top">',
+        "<div>",
+        '<p class="day-label">Day ' + day.day + "</p>",
+        '<p class="day-date">' + escapeHtml(day.dateText) + "</p>",
+        '<h2 class="day-title">' + escapeHtml(day.title) + "</h2>",
+        "</div>",
+        '<div class="pacing-pill ' + day.pacing.toLowerCase() + '">' + escapeHtml(day.pacing) + "</div>",
+        "</div>",
+        '<p class="day-blurb">' + escapeHtml(day.blurb) + "</p>",
+        '<div class="day-crest" aria-hidden="true">' + renderDayCrest(day.day) + "</div>",
+        '<div class="day-meta">',
+        "<span class=\"tiny-pill\">" + day.rows.length + " moments</span>",
+        "<span class=\"tiny-pill\">" + day.anchors.length + " anchor" + (day.anchors.length === 1 ? "" : "s") + "</span>",
+        '<span class="tiny-pill">Most times are approximate</span>',
+        "</div>",
+        renderAnchors(day),
+        renderSections(day),
+        "</article>"
+      ].join("");
+    }
+
+    function renderGuide() {
+      const guide = document.getElementById("guide");
+      const activeDay = getActiveDay();
+
+      if (state.todayMode) {
+        guide.className = "guide";
+        guide.innerHTML = renderDayCard(activeDay, true);
+        applyTheme(activeDay);
+        return;
+      }
+
+      guide.className = "guide is-browse";
+      guide.innerHTML = tripDays.map(function(day) {
+        return renderDayCard(day, day.day === activeDay.day);
+      }).join("");
+
+      applyTheme(activeDay);
+    }
+
+    function syncModeToggle() {
+      const todayButton = document.getElementById("todayToggle");
+      const browseButton = document.getElementById("browseToggle");
+
+      todayButton.classList.toggle("is-active", state.todayMode);
+      todayButton.setAttribute("aria-pressed", state.todayMode ? "true" : "false");
+
+      browseButton.classList.toggle("is-active", !state.todayMode);
+      browseButton.setAttribute("aria-pressed", state.todayMode ? "false" : "true");
+    }
+
+    function render() {
+      syncModeToggle();
+      renderStatus();
+      renderDots();
+      renderGuide();
+    }
+
+    document.getElementById("todayToggle").addEventListener("click", function() {
+      state.todayMode = true;
+      state.activeDay = getTripDayForToday().day;
+      render();
+    });
+
+    document.getElementById("browseToggle").addEventListener("click", function() {
+      state.todayMode = false;
+      render();
+      scrollToDayCard(state.activeDay);
+    });
+
+    (function init() {
+      state.activeDay = getTripDayForToday().day;
+      state.todayMode = true;
+      render();
+    })();
+  </script>
+</body>
+</html>
